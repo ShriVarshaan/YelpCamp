@@ -4,27 +4,27 @@
     <div class="col-12">
         <h1 class="text-center">New campground</h1>
         <div class="col-6 offset-3">
-            <form action="/campgrounds" method="post">
+            <form action="/campgrounds" method="post" novalidate class="validated-form">
                 <div class="mb-2">
                     <label class="form-label" for="title">Title</label>
-                    <input class="form-control" type="text" name="campground[title]" id="title">
+                    <input required class="form-control" type="text" name="campground[title]" id="title">
                 </div>
 
                 <div class="mb-2">
                     <label class="form-label" for="location">Location</label>
-                    <input class="form-control" type="text" name="campground[location]" id="location">
+                    <input required class="form-control" type="text" name="campground[location]" id="location">
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label" for="image">Image URL</label>
-                    <input class="form-control" type="text" name="campground[image]" id="image">
+                    <input required class="form-control" type="text" name="campground[image]" id="image">
                 </div>
 
                 <div class="input-group mb-2">
                     <div class="input-group-prepend">
                         <span class="input-group-text">$</span>
                     </div>
-                    <input name="campground[price]" id="price" type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+                    <input required name="campground[price]" id="price" type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
                     <div class="input-group-append">
                         <span class="input-group-text">.00</span>
                     </div>
