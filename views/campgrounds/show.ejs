@@ -20,7 +20,7 @@
     <div class="col-6">
         <h2>Leave a review</h2>
 
-        <form novalidate class="mb-3 validated-form" action="/campgrounds/<%= campground._id %>/review" method="post">
+        <form novalidate class="mb-3 validated-form" action="/campgrounds/<%= campground._id %>/reviews" method="post">
             <div class="mb-3">
                 <label for="rating" class="form-label">Rating</label>
                 <input class="form-range" id="rating" name="review[rating]" type="range" min="1" max="5" class="form-control">
