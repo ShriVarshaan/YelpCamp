@@ -5,16 +5,9 @@ const ExpressError = require("../utils/ExpressError")
 const Joi = require("joi")
 const {Campground, campgroundSchemaJoi} = require("../models/campground")
 const {Review, reviewSchemaJoi} = require("../models/review")
-const { isLoggedIn } = require("../middleware");
+const { isLoggedIn, validateReview } = require("../middleware");
 
-const validateReview = function (req, res, next){
-    const review = req.body
-    const result = reviewSchemaJoi.validate(review)
-    if (result.error){
-        return next(result.error)
-    }
-    next()
-}
+
 
 router.get("/", (req, res) =>{
     const {id} = req.params
@@ -33,6 +26,7 @@ router.post("/", isLoggedIn, validateReview, wrapAsync(async function (req, res)
     const campground = await Campground.findById(req.params.id)
     const {review} = req.body
     const insertReview = new Review(review)
+    insertReview.author = req.user._id
     campground.reviews.push(insertReview)
     await campground.save()
     await insertReview.save()

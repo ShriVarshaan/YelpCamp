@@ -21,6 +21,10 @@ const CampgroundSchema = new Schema({
     location: {
         type: String
     },
+    author: {
+        type: Schema.Types.ObjectId,
+        ref: "User"
+    },
     reviews: [
         {
             type: mongoose.Schema.Types.ObjectId,

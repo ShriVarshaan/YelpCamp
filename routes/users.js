@@ -4,7 +4,10 @@ const User = require("../models/user")
 const wrapAsync = require("../utils/wrapAsync")
 const passport = require("passport")
 
-let returnTo = "/campgrounds"
+const returningTo = function (req, res, next) {
+    res.locals.returnTo = req.session.returnTo || "/campgrounds"
+    next()
+}
 
 router.get("/register", (req, res) => {
     res.render("users/register")
@@ -30,13 +33,12 @@ router.post("/register", wrapAsync(async (req, res, next) => {
 }))
 
 router.get("/login", (req, res) => {
-    returnTo = req.session.returnTo || "/campgrounds"
     res.render("users/login")
 })
 
-router.post("/login", passport.authenticate("local", {failureFlash: true, failureRedirect: "/login"}), (req, res) => {
+router.post("/login", returningTo, passport.authenticate("local", {failureFlash: true, failureRedirect: "/login"}), (req, res) => {
     req.flash("success", "welcome back")
-    res.redirect(returnTo)
+    res.redirect(res.locals.returnTo)
 })
 
 router.get("/logout", async (req, res) => {

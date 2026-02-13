@@ -8,19 +8,27 @@
                 <h5 class="card-title"><%= campground.title %></h5>
                 <p class="card-text"><%= campground.description %></p>
             </div>
-            <div class="card-body">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item text-muted"><%= campground.location %></li>
+                <li class="list-group-item">Submitted by <%= campground.author.username %></li>
+                <li class="list-group-item"><%= campground.price %></li>
+            </ul>
+            <% if (username && campground.author.username && username === campground.author.username) { %>
+                <div class="card-body">
                 <form action="/campgrounds/<%= campground._id %>?_method=delete" method="post">
                     <button class="btn btn-danger">Delete</button>
                     <a class="btn btn-primary" href="/campgrounds/<%= campground._id %>/edit">Edit campground</a>
                 </form>
             
             </div>
+            <% } %>
         </div>
     </div>
     <div class="col-6">
-        <h2>Leave a review</h2>
-
-        <form novalidate class="mb-3 validated-form" action="/campgrounds/<%= campground._id %>/reviews" method="post">
+        
+        <% if (username) { %>
+            <h2>Leave a review</h2>
+            <form novalidate class="mb-3 validated-form" action="/campgrounds/<%= campground._id %>/reviews" method="post">
             <div class="mb-3">
                 <label for="rating" class="form-label">Rating</label>
                 <input class="form-range" id="rating" name="review[rating]" type="range" min="1" max="5" class="form-control">
@@ -31,6 +39,8 @@
             </div>
             <button class="btn-success">Add review</button>
         </form>
+        <% } %>
+        
 
         <% if (campground.reviews) { %>
             <div class="mb-3">
@@ -39,9 +49,12 @@
                         <div class="card-body">
                             <h5 class="card-title">Rating: <%= campground.reviews[index].rating %></h5>
                             <p class="card-text">Reviews: <%= campground.reviews[index].body %></p>
-                            <form action="/campgrounds/<%= campground._id %>/reviews/<%= campground.reviews[index]._id %>?_method=delete" method="post">
+                            <p class="card-text">author: <%= campground.reviews[index].author.username %></p>
+                            <% if (username && campground.reviews[index].author.username === username) { %>
+                                <form action="/campgrounds/<%= campground._id %>/reviews/<%= campground.reviews[index]._id %>?_method=delete" method="post">
                                 <button class="btn btn-danger">delete</button>
                             </form>
+                            <% } %>
                         </div>
                     </div>
                 <% } %>
